@@ -1,0 +1,43 @@
+batch_size: 128
+epochs: 60
+eval_every_n_epochs: 1
+fine_tune_from: ./training_results/pretraining
+# fine_tune_from: scratch
+log_every_n_steps: 50
+gpu: cuda:1
+random_seed: 1
+task: regression
+
+optim:
+  optimizer: Adam
+  lr: 0.01
+  momentum: 0.9
+  weight_decay: 1e-6
+
+model: 
+  atom_fea_len: 64
+  h_fea_len: 512
+  n_conv: 3
+  n_h: 1
+
+data_name: 'QMOF'
+# data_name: 'hMOF_CO2_0.5'
+
+dataset:
+  # root_dir: ./hMOF_cif
+  # label_dir: ./benchmark_datasets/hMOF/graph/large/hMOF_CO2_0.5_large_graph.csv
+  root_dir: ./QMOF_cg
+  label_dir: ./benchmark_datasets/QMOF/graph/large/QMOF_large_graph.csv
+
+  max_num_nbr: 12
+  radius: 8
+  dmin: 0
+  step: 0.2
+
+
+dataloader:
+  val_ratio: 0.15
+  test_ratio: 0.15
+  num_workers: 0
+
+
