@@ -1,5 +1,4 @@
 *__pycache__*
 *vscode_
-
-finetune_soap.py
-config_ft_soap.yaml
+.ipynb_checkpoints
+training_results

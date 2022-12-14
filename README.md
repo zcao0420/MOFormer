@@ -1,7 +1,6 @@
 # MOFormer
 
-MOFormer: Self-Supervised Transformer model for Metal-Organic Framework Property Prediction
-
+<b>MOFormer: Self-Supervised Transformer model for Metal-Organic Framework Property Prediction</b> </br>
 [[arXiv]](https://arxiv.org/abs/2210.14188) [[PDF]](https://arxiv.org/pdf/2210.14188.pdf) </br>
 [Zhonglin Cao*](https://www.linkedin.com/in/zhonglincao/?trk=public_profile_browsemap), [Rishikesh Magar*](https://www.linkedin.com/in/rishikesh-magar), [Yuyang Wang](https://yuyangw.github.io/), [Amir Barati Farimani](https://www.meche.engineering.cmu.edu/directory/bios/barati-farimani-amir.html) </br>
 Carnegie Mellon University </br>
@@ -28,9 +27,12 @@ Set up conda environment and clone the github repo
 
 ```
 # create a new environment
-$ conda create -n moformer python=3 scikit-learn pytorch torchvision pymatgen -c pytorch -c conda-forge
+$ conda create -n myenv python=3.9
 $ conda activate moformer
+$ conda install pytorch==1.10.1 cudatoolkit=11.3 -c pytorch -c conda-forge
+$ conda install --channel conda-forge pymatgen
 $ pip install transformers
+$ conda install -c conda-forge tensorboard
 
 # clone the source code of MOFormer
 $ git clone https://github.com/zcao0420/MOFormer
@@ -64,3 +66,5 @@ Similarly, to fine-tune the pre-trained CGCNN, one can run `finetune_cgcnn.py` w
 ```
 python finetune_cgcnn.py
 ```
+
+We also provide a jupyter notebook `demo.ipynb` for finetuning/supervised training.

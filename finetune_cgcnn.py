@@ -32,13 +32,6 @@ warnings.warn("deprecated", UserWarning)
 warnings.warn("deprecated", FutureWarning)
 
 
-parser = argparse.ArgumentParser(description='Crystal Graph Convolutional Neural Networks')
-parser.add_argument('--seed', default=1, type=int,
-                    metavar='Seed', help='random seed for splitting data (default: 1)')
-
-args = parser.parse_args(sys.argv[1:])
-
-
 def _save_config_file(model_checkpoints_folder):
     if not os.path.exists(model_checkpoints_folder):
         os.makedirs(model_checkpoints_folder)
@@ -345,9 +338,13 @@ class FineTune(object):
         return losses.avg, mae_errors.avg
 
 
-    
-
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Crystal Graph Convolutional Neural Networks')
+    parser.add_argument('--seed', default=1, type=int,
+                        metavar='Seed', help='random seed for splitting data (default: 1)')
+
+    args = parser.parse_args(sys.argv[1:])
+
     config = yaml.load(open("config_ft_cgcnn.yaml", "r"), Loader=yaml.FullLoader)
     print(config)
     config['random_seed'] = args.seed

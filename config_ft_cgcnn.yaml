@@ -4,7 +4,7 @@ eval_every_n_epochs: 1
 fine_tune_from: ./training_results/pretraining
 # fine_tune_from: scratch
 log_every_n_steps: 50
-gpu: cuda:1
+gpu: cuda:0
 random_seed: 1
 task: regression
 
