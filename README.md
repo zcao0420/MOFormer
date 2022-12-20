@@ -51,9 +51,9 @@ Pre-trained model can be found in `ckpt` folder.
 
 ### Pre-training
 
-To pre-train the model from scratch, one can run 
+To pre-train the model using SSL from scratch, one can run 
 ```
-python pretrain.py
+python pretrain_SSL.py
 ```
 
 ### Fine-tuning
