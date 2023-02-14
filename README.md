@@ -1,9 +1,8 @@
 # MOFormer
 
-### MOFormer: Self-Supervised Transformer model for Metal-Organic Framework Property Prediction </br>
-#### Journal of the American Chemical Society [[Paper]](https://pubs.acs.org/doi/10.1021/jacs.2c11420) [[arXiv]](https://arxiv.org/abs/2210.14188) [[PDF]](https://arxiv.org/pdf/2210.14188.pdf) </br>
-[Zhonglin Cao*](https://www.linkedin.com/in/zhonglincao/?trk=public_profile_browsemap), [Rishikesh Magar*](https://www.linkedin.com/in/rishikesh-magar), [Yuyang Wang](https://yuyangw.github.io/), [Amir Barati Farimani](https://www.meche.engineering.cmu.edu/directory/bios/barati-farimani-amir.html) </br>
-(*equal contribution) </br>
+<strong>MOFormer: Self-Supervised Transformer model for Metal-Organic Framework Property Prediction</strong> </br>
+<em>Journal of the American Chemical Society (JACS)</em> [[Paper]](https://pubs.acs.org/doi/10.1021/jacs.2c11420) [[arXiv]](https://arxiv.org/abs/2210.14188) [[PDF]](https://arxiv.org/pdf/2210.14188.pdf) </br>
+[Zhonglin Cao*](https://www.linkedin.com/in/zhonglincao/?trk=public_profile_browsemap), [Rishikesh Magar*](https://www.linkedin.com/in/rishikesh-magar), [Yuyang Wang](https://yuyangw.github.io/), [Amir Barati Farimani](https://www.meche.engineering.cmu.edu/directory/bios/barati-farimani-amir.html) (*equal contribution) </br>
 Carnegie Mellon University </br>
 
 <img src="figs/pipeline.png" width="600">
