@@ -76,4 +76,4 @@ We also provide a jupyter notebook `demo.ipynb` for finetuning/supervised traini
 
 ## Acknowledgement
 - CGCNN: [https://github.com/txie-93/cgcnn](https://github.com/txie-93/cgcnn)
-- Crystal Twins: [https://github.com/RishikeshMagar/Crystal-Twins]
+- Crystal Twins: [https://github.com/RishikeshMagar/Crystal-Twins](https://github.com/RishikeshMagar/Crystal-Twins)
