@@ -56,7 +56,7 @@ Pre-trained model can be found in `ckpt` folder.
 
 ### Pre-training
 
-To pre-train the model using SSL from scratch, one can run 
+To pre-train the model using SSL from scratch, one can run. The config file for the pretraining takes as input the directory 
 ```
 python pretrain_SSL.py
 ```
@@ -76,3 +76,4 @@ We also provide a jupyter notebook `demo.ipynb` for finetuning/supervised traini
 
 ## Acknowledgement
 - CGCNN: [https://github.com/txie-93/cgcnn](https://github.com/txie-93/cgcnn)
+- Crystal Twins: [https://github.com/RishikeshMagar/Crystal-Twins]
