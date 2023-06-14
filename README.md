@@ -74,6 +74,9 @@ python finetune_cgcnn.py
 
 We also provide a jupyter notebook `demo.ipynb` for finetuning/supervised training.
 
+## Questions about the code
+We monitor the github repository regularly, please feel free raise questions or concerns about the code. It makes it easier for us to handle the code requests easily.  
+
 ## Acknowledgement
 - CGCNN: [https://github.com/txie-93/cgcnn](https://github.com/txie-93/cgcnn)
 - Crystal Twins: [https://github.com/RishikeshMagar/Crystal-Twins](https://github.com/RishikeshMagar/Crystal-Twins)
