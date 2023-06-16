@@ -56,7 +56,7 @@ Pre-trained model can be found in `ckpt` folder.
 
 ### Pre-training
 
-To pre-train the model using SSL from scratch, one can run `python pretrain_SSL.py`. The config file for the pretraining takes as input the directory of the cif file along with a file called `id_prop.npy`. The `id_prop.npy` has `cif id` and its corresponding `mof id` string representation. We have added folder named `cif_toy` with 100 cif files for MOFs and the the corresponding `id_prop.npy` for the data in the `cif_toy` folder. If you intend to run the pretraining for the `cif_toy` folder please make sure you update `config_multiview.yaml` indicating a proper location for the root directory.  
+To pre-train the model using SSL from scratch, one can run `python pretrain_SSL.py`. The config file for the pretraining takes as input the directory of the cif file along with a file called `id_prop.npy`. The `id_prop.npy` has `cif id` and its corresponding `mof id` string representation. We have added folder named `cif_toy` with 100 cif files for MOFs and the the corresponding `id_prop.npy` for the data in the `cif_toy` folder. If you intend to run the pretraining for the `cif_toy` folder please make sure you update `config_multiview.yaml` indicating a proper location for the root directory.  The pretraining dataset is available on [figshare](10.6084/m9.figshare.23532918)
 ```
 python pretrain_SSL.py
 ```
