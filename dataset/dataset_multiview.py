@@ -3,7 +3,7 @@ from __future__ import print_function, division
 import csv
 import functools
 import  json
-import  you
+#import  you
 import  random
 import warnings
 import math
@@ -167,23 +167,18 @@ def collate_pool(dataset_list):
     """
     Collate a list of data and return a batch for predicting crystal
     properties.
-
     Parameters
     ----------
-
     dataset_list: list of tuples for each data point.
       (atom_fea, nbr_fea, nbr_fea_idx, target)
-
       atom_fea: torch.Tensor shape (n_i, atom_fea_len)
       nbr_fea: torch.Tensor shape (n_i, M, nbr_fea_len)
       nbr_fea_idx: torch.LongTensor shape (n_i, M)
       target: torch.Tensor shape (1, )
       cif_id: str or int
-
     Returns
     -------
     N = sum(n_i); N0 = sum(i)
-
     batch_atom_fea: torch.Tensor shape (N, orig_atom_fea_len)
       Atom features from atom type
     batch_nbr_fea: torch.Tensor shape (N, M, nbr_fea_len)
@@ -215,7 +210,7 @@ def collate_pool(dataset_list):
             torch.cat(batch_nbr_fea, dim=0),
             torch.cat(batch_nbr_fea_idx, dim=0),
             crystal_atom_idx),\
-        torch.stack(batch_tokens, dim=0),\
+        torch.cat(batch_tokens, dim=0),\
         batch_cif_ids
 
 
@@ -349,7 +344,7 @@ class CIFData(Dataset):
     target: torch.Tensor shape (1, )
     cif_id: str or int
     """
-    def __init__(self, root_dir, max_num_nbr=12, radius=8, dmin=0, step=0.2, tokenizer,
+    def __init__(self, root_dir, tokenizer,max_num_nbr=12, radius=8, dmin=0, step=0.2, 
                  random_seed=123):
 
         # self.data = data[:int(len(data)*use_ratio)]
@@ -361,10 +356,11 @@ class CIFData(Dataset):
         self.root_dir  =  root_dir
         self.max_num_nbr, self.radius = max_num_nbr, radius
         assert os.path.exists(root_dir), 'root_dir does not exist!'
-        
+
         id_prop_file = os.path.join(self.root_dir, 'id_prop.npy')
         assert os.path.exists(id_prop_file), 'id_prop.npy does not exist!'        
-        self.id_prop_data = id_prop_file
+        self.id_prop_data = np.load(id_prop_file,allow_pickle = True)
+        #print(self.id_prop_data)
 
         atom_init_file = os.path.join('dataset/atom_init.json')
         assert os.path.exists(atom_init_file), 'atom_init.json does not exist!'
@@ -379,9 +375,11 @@ class CIFData(Dataset):
 
     #@functools.lru_cache(maxsize=None)  # Cache loaded structures
     def __getitem__(self, idx):
-
+        #print(self.id_prop_data[idx])
         cif_id,cif_string = self.id_prop_data[idx]
-        crys = Structure.from_file(os.path.join(self.root_dir,cif_id + '. cif'))
+        # print(cif_id)
+        # print(cif_string)
+        crys = Structure.from_file(os.path.join(self.root_dir, cif_id + '.cif'))
 
         tokens = np.array([self.tokenizer.encode(cif_string, max_length=512, truncation=True,padding='max_length')])
         
@@ -405,7 +403,7 @@ class CIFData(Dataset):
         all_nbrs_per = crystal_per.get_all_neighbors(self.radius, include_index=True)
         all_nbrs_per = [sorted(nbrs, key=lambda x: x[1]) for nbrs in all_nbrs_per]
         nbr_fea_idx_per , nbr_fea_per  = [], []
-        for nbr in all_nbrs_rot_1:
+        for nbr in all_nbrs_per:
             if len(nbr) < self.max_num_nbr:
                 warnings.warn('{} not find enough neighbors to build graph. '
                               'If it happens frequently, consider increase '
