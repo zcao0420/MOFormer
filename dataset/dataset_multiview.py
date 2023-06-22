@@ -208,7 +208,7 @@ def collate_pool(dataset_list):
         batch_nbr_fea_idx.append(nbr_fea_idx+base_idx)
         new_idx = torch.LongTensor(np.arange(n_i)+base_idx)
         crystal_atom_idx.append(new_idx)
-        batch_tokens.append(target)
+        batch_tokens.append(tokens)
         batch_cif_ids.append(cif_id)
         base_idx += n_i
     return (torch.cat(batch_atom_fea, dim=0),
