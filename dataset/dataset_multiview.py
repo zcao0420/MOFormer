@@ -380,7 +380,7 @@ class CIFData(Dataset):
     #@functools.lru_cache(maxsize=None)  # Cache loaded structures
     def __getitem__(self, idx):
 
-        cif_id,cif_string, target = self.id_prop_data[idx]
+        cif_id,cif_string = self.id_prop_data[idx]
         crys = Structure.from_file(os.path.join(self.root_dir,cif_id + '. cif'))
 
         tokens = np.array([self.tokenizer.encode(cif_string, max_length=512, truncation=True,padding='max_length')])
