@@ -15,7 +15,7 @@ from torch.utils.data import dataset, DataLoader
 from torch.nn import CrossEntropyLoss
 # from transformers.utils.dummy_vision_objects import ImageFeatureExtractionMixin
 from tokenizer.mof_tokenizer import MOFTokenizer
-from model.transformer import Transformer
+from model.transformer import TransformerPretrain
 from model.utils import *
 from tensorboardX import SummaryWriter
 #from model.dataset import MOF_pretrain_Dataset
@@ -88,12 +88,12 @@ class Multiview(object):
          # [N,C]
         #print(zis)
         # get the representations and the projections
-        #print(data_j)
+
         zjs = model_g(*data_j)  # [N,C]
-        #print(zjs.shape)
-        #print(data_i.shape)
-        _, zis = model_t(data_i) 
-        #print(zis.shape)
+
+        # _, zis = model_t(data_i) 
+        zis = model_t(data_i)
+
         # normalize projection feature vectors
         # zis = F.normalize(zis, dim=1)
         # zjs = F.normalize(zjs, dim=1)
@@ -108,32 +108,14 @@ class Multiview(object):
         orig_atom_fea_len = structures[0].shape[-1]
         nbr_fea_len = structures[1].shape[-1]
 
-        model_t = Transformer(**self.config["Transformer"]).to(self.device)
+        model_t = TransformerPretrain(**self.config["Transformer"]).to(self.device)
         
 
         model_g = CrystalGraphConvNet(orig_atom_fea_len, nbr_fea_len,
                                     **self.config['model_cgcnn']).to(self.device)
-        
-        #print(model_g.parameters())
-
-        mlp = nn.Sequential(
-            nn.LayerNorm(512),
-            nn.Identity(),
-            nn.Linear(512, 4021) 
-            )
 
 
         model_t, model_g = self._load_pre_trained_weights(model_t,model_g)
-
-        # trainer = MLM(
-        #     model_g,
-        #     mlp,
-        #     mask_token_id = 14,          # the token id reserved for masking
-        #     pad_token_id = 0,           # the token id for padding
-        #     mask_prob = 0.15,           # masking probability for masked language modeling
-        #     replace_prob = 0.90,        # ~10% probability that token will not be masked, but included in loss, as detailed in the epaper
-        #     mask_ignore_token_ids = [12, 13]  # other tokens to exclude from masking, include the [cls] and [sep] here
-        #     ).to(self.device)
 
         optimizer = torch.optim.Adam(list(model_t.parameters()) + list(model_g.parameters()), lr = self.config['optim']['init_lr'], weight_decay=eval(self.config['optim']['weight_decay']))
         scheduler = CosineAnnealingLR(optimizer, T_max=len(self.train_loader), eta_min=0, last_epoch=-1)
@@ -167,8 +149,6 @@ class Multiview(object):
                                 input_1[3])
                     input_transformer = input_2
                 
-#                z_graph = model_g(input_graph)
-#                print(z_graph.shape)
                 loss = self._step(model_t, model_g, input_transformer,input_graph)
 
                 if n_iter % self.config['log_every_n_steps'] == 0:
@@ -214,7 +194,7 @@ class Multiview(object):
             model_g.load_state_dict(state_dict_g)
 
             print("Loaded pre-trained model with success.")
-            #print("loaded")
+            
         except FileNotFoundError:
             print("Pre-trained weights not found. Training from scratch.")
 

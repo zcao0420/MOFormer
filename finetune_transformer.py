@@ -203,12 +203,8 @@ class FineTune(object):
             checkpoints_folder = self.config['fine_tune_from']
             load_state = torch.load(os.path.join(checkpoints_folder, 'model_transformer_3.pth'),  map_location=self.config['gpu']) 
  
-            # checkpoint = torch.load('model_best.pth.tar', map_location=args.gpu)
-            # load_state = checkpoint['state_dict']
             model_state = model.state_dict()
 
-            #pytorch_total_params = sum(p.numel() for p in model_state.parameters if p.requires_grad)
-            #print(pytorch_total_params)
             for name, param in load_state.items():
                 if name not in model_state:
                     print('NOT loaded:', name)

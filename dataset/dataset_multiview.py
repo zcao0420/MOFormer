@@ -344,13 +344,8 @@ class CIFData(Dataset):
     target: torch.Tensor shape (1, )
     cif_id: str or int
     """
-    def __init__(self, root_dir, tokenizer,max_num_nbr=12, radius=8, dmin=0, step=0.2, 
+    def __init__(self, root_dir, tokenizer, max_num_nbr=12, radius=8, dmin=0, step=0.2, 
                  random_seed=123):
-
-        # self.data = data[:int(len(data)*use_ratio)]
-        # self.mofid = self.data[:, 1].astype(str)
-        # self.tokens = np.array([tokenizer.encode(i, max_length=512, truncation=True,padding='max_length') for i in self.mofid])
-        # self.label = self.data[:, 2].astype(float)
 
         self.tokenizer = tokenizer
         self.root_dir  =  root_dir
@@ -359,81 +354,60 @@ class CIFData(Dataset):
 
         id_prop_file = os.path.join(self.root_dir, 'id_prop.npy')
         assert os.path.exists(id_prop_file), 'id_prop.npy does not exist!'        
-        self.id_prop_data = np.load(id_prop_file,allow_pickle = True)
+        self.id_prop_data = np.load(id_prop_file, allow_pickle = True)
         #print(self.id_prop_data)
 
         atom_init_file = os.path.join('dataset/atom_init.json')
         assert os.path.exists(atom_init_file), 'atom_init.json does not exist!'
         self.ari = AtomCustomJSONInitializer(atom_init_file)
         self.gdf = GaussianDistance(dmin=dmin, dmax=self.radius, step=step)
-        self.perturber  =  PerturbStructureTransformation ( distance = 0.05 , min_distance = 0.0 )        
-        self.masker = RemoveSitesTransformation()
 
     def __len__(self):
-        # return len(self.id_prop_data)
         return len(self.id_prop_data)
 
     #@functools.lru_cache(maxsize=None)  # Cache loaded structures
     def __getitem__(self, idx):
         #print(self.id_prop_data[idx])
-        cif_id,cif_string = self.id_prop_data[idx]
-        # print(cif_id)
-        # print(cif_string)
-        crys = Structure.from_file(os.path.join(self.root_dir, cif_id + '.cif'))
+        cif_id, mofid = self.id_prop_data[idx]
+        fname = cif_id
+        if fname[-4:] != '.cif':
+            fname = fname + '.cif'
+        crys = Structure.from_file(os.path.join(self.root_dir, fname))
 
-        tokens = np.array([self.tokenizer.encode(cif_string, max_length=512, truncation=True,padding='max_length')])
+        tokens = np.array([self.tokenizer.encode(mofid, max_length=512, truncation=True, padding='max_length')])
         
         tokens = torch.from_numpy(tokens)
 
         crystal = crys.copy()
-        crystal_per =  self.perturber.apply_transformation(crystal)
 
-        num_sites = crys.num_sites
+        atom_fea = np.vstack([self.ari.get_atom_fea(crystal[i].specie.number)
+                               for  i  in  range ( len ( crystal ))])
+        atom_fea = torch.Tensor(atom_fea)
 
-        mask_num = int(max([1, math.floor(0.10*num_sites)]))#int(np.floor(0.10*num_sites))
-        indices_mask = np.random.choice(num_sites, mask_num, replace=False)
-
-        atom_fea_per = np.vstack([self.ari.get_atom_fea(crystal_per[i].specie.number)
-                              for  i  in  range ( len ( crystal_per ))])
-
-        # mask 10% atoms
-        atom_fea_per[indices_mask,:] = 0
-
-        atom_fea_per = torch.Tensor(atom_fea_per)
-        all_nbrs_per = crystal_per.get_all_neighbors(self.radius, include_index=True)
-        all_nbrs_per = [sorted(nbrs, key=lambda x: x[1]) for nbrs in all_nbrs_per]
-        nbr_fea_idx_per , nbr_fea_per  = [], []
-        for nbr in all_nbrs_per:
+        all_nbrs = crystal.get_all_neighbors(self.radius, include_index=True)
+        all_nbrs = [sorted(nbrs, key=lambda x: x[1]) for nbrs in all_nbrs]
+        nbr_fea_idx , nbr_fea  = [], []
+        for nbr in all_nbrs:
             if len(nbr) < self.max_num_nbr:
                 warnings.warn('{} not find enough neighbors to build graph. '
                               'If it happens frequently, consider increase '
                               'radius.'.format(cif_id))
-                
-                # mask 10% edges
-                keep_edge_num = int(np.ceil(0.90*len(nbr)))
-                keep_edge_indices = np.random.choice(len(nbr), keep_edge_num, replace=False)
-                nbr  = [ nbr [ i ] for  i  in  keep_edge_indices ]
-                nbr_fea_idx_per.append(list(map(lambda x: x[2], nbr)) +
-                                  [0] * (self.max_num_nbr - keep_edge_num))
-                nbr_fea_per.append(list(map(lambda x: x[1], nbr)) +
-                              [self.radius + 1.] * (self.max_num_nbr - keep_edge_num))
-            
+                nbr_fea_idx.append(list(map(lambda x: x[2], nbr)) +
+                                   [0] * (self.max_num_nbr - len(nbr)))
+                nbr_fea.append(list(map(lambda x: x[1], nbr)) +
+                               [self.radius + 1.] * (self.max_num_nbr -
+                                                     len(nbr)))
             else:
-                # mask 10% edges
-                keep_edge_num = int(np.ceil(0.90*self.max_num_nbr))
-                keep_edge_indices = np.random.choice(self.max_num_nbr, keep_edge_num, replace=False)
-                nbr  = [ nbr [ i ] for  i  in  keep_edge_indices ]
-                nbr_fea_idx_per.append(list(map(lambda x: x[2], nbr)) +
-                                  [0] * (self.max_num_nbr - keep_edge_num))
-                nbr_fea_per.append(list(map(lambda x: x[1], nbr)) +
-                              [self.radius + 1.] * (self.max_num_nbr - keep_edge_num))
-                
+                nbr_fea_idx.append(list(map(lambda x: x[2],
+                                            nbr[:self.max_num_nbr])))
+                nbr_fea.append(list(map(lambda x: x[1],
+                                        nbr[:self.max_num_nbr])))
+        nbr_fea_idx, nbr_fea = np.array(nbr_fea_idx), np.array(nbr_fea)
 
-        nbr_fea_idx_per, nbr_fea_per = np.array(nbr_fea_idx_per), np.array(nbr_fea_per)
-        nbr_fea_per = self.gdf.expand(nbr_fea_per)
-        atom_fea_per = torch.Tensor(atom_fea_per)
-        nbr_fea_per = torch.Tensor(nbr_fea_per)
-        nbr_fea_idx_per = torch.LongTensor(nbr_fea_idx_per)
+        nbr_fea = self.gdf.expand(nbr_fea)
+        atom_fea = torch.Tensor(atom_fea)
+        nbr_fea = torch.Tensor(nbr_fea)
+        nbr_fea_idx = torch.LongTensor(nbr_fea_idx)
         # target = torch.Tensor([float(target)])
 
-        return (atom_fea_per, nbr_fea_per, nbr_fea_idx_per), tokens,cif_id
+        return (atom_fea, nbr_fea, nbr_fea_idx), tokens, cif_id
