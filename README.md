@@ -46,7 +46,7 @@ $ cd MOFormer
 
 ### Dataset
 
-All the data used in this work can be found in `benchmark_datasets` folder. 
+All the data used in this work can be found in `benchmark_datasets` folder. If you use any data in this work, please cite the corresponding reference included in the Acknowledgement.
 
 ### Checkpoints
 
@@ -77,6 +77,10 @@ We also provide a jupyter notebook `demo.ipynb` for finetuning/supervised traini
 ## Acknowledgement
 - CGCNN: [https://github.com/txie-93/cgcnn](https://github.com/txie-93/cgcnn)
 - Crystal Twins: [https://github.com/RishikeshMagar/Crystal-Twins](https://github.com/RishikeshMagar/Crystal-Twins)
+- MOFid: [https://pubs.acs.org/doi/full/10.1021/acs.cgd.9b01050](Paper) and [https://github.com/snurr-group/mofid/tree/master](Code)
+- Boyd&Woo Dataset [https://www.nature.com/articles/s41586-019-1798-7](Paper)
+- QMOF [https://www.cell.com/matter/fulltext/S2590-2385(21)00070-9?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS2590238521000709%3Fshowall%3Dtrue](Paper1) and [https://www.nature.com/articles/s41524-022-00796-6](Paper2)
+- hMOF [https://www.nature.com/articles/nchem.1192](Paper)
 
 #### Questions about the code
 The graduate students who worked on the paper have graduated from CMU. We monitor the github repository regularly, please feel free raise questions or concerns about the code. It makes it easier for us to handle the code requests.  
