@@ -17,7 +17,7 @@ from torch.nn import CrossEntropyLoss
 from tokenizer.mof_tokenizer import MOFTokenizer
 from model.transformer import TransformerPretrain
 from model.utils import *
-from tensorboardX import SummaryWriter
+from tensorboard import SummaryWriter
 #from model.dataset import MOF_pretrain_Dataset
 from dataset.dataset_multiview import CIFData,collate_pool,get_train_val_test_loader
 from datetime import datetime, timedelta
