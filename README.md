@@ -56,7 +56,7 @@ Pre-trained model can be found in `ckpt` folder.
 
 ### Pre-training
 
-To pre-train the model using SSL from scratch, one can run `python pretrain_SSL.py`. The config file for the pretraining takes as input the directory of the cif file along with a file called `id_prop.npy`. The `id_prop.npy` has `cif id` and its corresponding `mof id` string representation. We have added folder named `cif_toy` with 100 cif files for MOFs and the the corresponding `id_prop.npy` for the data in the `cif_toy` folder. If you intend to run the pretraining for the `cif_toy` folder please make sure you update `config_multiview.yaml` indicating a proper location for the root directory.  The pretraining dataset is available on [figshare](10.6084/m9.figshare.23532918)
+To pre-train the model using SSL from scratch, one can run `python pretrain_SSL.py`. The config file for the pretraining takes as input the directory of the cif file along with a file called `id_prop.npy`. The `id_prop.npy` has `cif id` and its corresponding `mof id` string representation. We have added folder named `cif_toy` with 100 cif files for MOFs and the the corresponding `id_prop.npy` for the data in the `cif_toy` folder. If you intend to run the pretraining for the `cif_toy` folder please make sure you update `config_multiview.yaml` indicating a proper location for the root directory.  The pretraining dataset is available on [figshare](https://figshare.com/articles/journal_contribution/cif_tar_xz/23532918)
 ```
 python pretrain_SSL.py
 ```
@@ -78,9 +78,9 @@ We also provide a jupyter notebook `demo.ipynb` for finetuning/supervised traini
 - CGCNN: [https://github.com/txie-93/cgcnn](https://github.com/txie-93/cgcnn)
 - Crystal Twins: [https://github.com/RishikeshMagar/Crystal-Twins](https://github.com/RishikeshMagar/Crystal-Twins)
 - MOFid: [Paper](https://pubs.acs.org/doi/full/10.1021/acs.cgd.9b01050) and [Code](https://github.com/snurr-group/mofid/tree/master)
-- Boyd&Woo Dataset [https://www.nature.com/articles/s41586-019-1798-7](Paper)
-- QMOF [https://www.cell.com/matter/fulltext/S2590-2385(21)00070-9?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS2590238521000709%3Fshowall%3Dtrue](Paper1) and [https://www.nature.com/articles/s41524-022-00796-6](Paper2)
-- hMOF [https://www.nature.com/articles/nchem.1192](Paper)
+- Boyd&Woo Dataset [Paper](https://www.nature.com/articles/s41586-019-1798-7)
+- QMOF [Paper1](https://www.cell.com/matter/fulltext/S2590-2385(21)00070-9?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS2590238521000709%3Fshowall%3Dtrue) and [Paper2](https://www.nature.com/articles/s41524-022-00796-6)
+- hMOF [Paper](https://www.nature.com/articles/nchem.1192)
 
 #### Questions about the code
 The graduate students who worked on the paper have graduated from CMU. We monitor the github repository regularly, please feel free raise questions or concerns about the code. It makes it easier for us to handle the code requests.  
