@@ -75,8 +75,9 @@ python finetune_cgcnn.py
 We also provide a jupyter notebook `demo.ipynb` for finetuning/supervised training.
 
 ## Acknowledgement
-- CGCNN: [https://github.com/txie-93/cgcnn](https://github.com/txie-93/cgcnn)
-- Crystal Twins: [https://github.com/RishikeshMagar/Crystal-Twins](https://github.com/RishikeshMagar/Crystal-Twins)
+- CGCNN: [Paper](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.120.145301) and [Code](https://github.com/txie-93/cgcnn)
+- Barlow Twins: [Paper](https://arxiv.org/abs/2103.03230) and [Code](https://github.com/facebookresearch/barlowtwins)
+- Crystal Twins: [Paper](https://www.nature.com/articles/s41524-022-00921-5) and [Code](https://github.com/RishikeshMagar/Crystal-Twins)
 - MOFid: [Paper](https://pubs.acs.org/doi/full/10.1021/acs.cgd.9b01050) and [Code](https://github.com/snurr-group/mofid/tree/master)
 - Boyd&Woo Dataset [Paper](https://www.nature.com/articles/s41586-019-1798-7)
 - QMOF [Paper1](https://www.cell.com/matter/fulltext/S2590-2385(21)00070-9?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS2590238521000709%3Fshowall%3Dtrue) and [Paper2](https://www.nature.com/articles/s41524-022-00796-6)
