@@ -84,4 +84,4 @@ We also provide a jupyter notebook `demo.ipynb` for finetuning/supervised traini
 - hMOF [Paper](https://www.nature.com/articles/nchem.1192)
 
 #### Questions about the code
-The graduate students who worked on the paper have graduated from CMU. We monitor the github repository regularly, please feel free raise questions or concerns about the code. It makes it easier for us to handle the code requests.  
+The graduate students who worked on the paper have graduated from CMU. We monitor the github repository regularly, please feel free raise github issues for questions or concerns about the code. It makes it easier for us to handle the code requests.  
