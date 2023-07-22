@@ -19,7 +19,7 @@ model_cgcnn:
   n_h: 1
 
 graph_dataset:
-  root_dir: cif_toy
+  root_dir: cif_toy   # change here to use cif
   max_num_nbr: 12
   radius: 8
   dmin: 0
@@ -27,7 +27,7 @@ graph_dataset:
   random_seed: 666
 
 dataloader:
-  val_ratio: 0.5
+  val_ratio: 0.5   # Please change here if you using the entire cif files, change to 0.05 as mentioned in SI of the paper
   num_workers: 0
 
 barlow_loss:
