@@ -11,7 +11,6 @@ import warnings
 
 import numpy as np
 import torch
-from fine_tuning import train
 from pymatgen.core.structure import Structure
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.dataloader import default_collate
@@ -427,6 +426,8 @@ class CIFData(Dataset):
 
 class CGData(Dataset):
     """
+    Besides the original CIFData from the CGCNN repo, we have added a CGData class that directly
+    loads converted crystal graph data for faster tuning on larger datasets.
     Returns
     -------
 
@@ -436,13 +437,13 @@ class CGData(Dataset):
     target: torch.Tensor shape (1, )
     cif_id: str or int
     """
-    def __init__(self,task, root_dir, label_dir, max_num_nbr=12, radius=8, dmin=0, step=0.2,
+    def __init__(self, task, root_dir, label_dir,
                  random_seed=123, shuffle=True):
         self.root_dir = root_dir
         self.task = task
         assert os.path.exists(root_dir), 'root_dir does not exist!'
         id_prop_file = label_dir
-        assert os.path.exists(id_prop_file), 'id_prop_hmof.csv does not exist!'
+        assert os.path.exists(id_prop_file), 'id_prop.csv does not exist!'
         with open(id_prop_file) as f:
             reader = csv.reader(f)
             self.id_prop_data = [row for row in reader]
