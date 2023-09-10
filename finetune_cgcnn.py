@@ -47,7 +47,7 @@ class FineTune(object):
 
         self.criterion = nn.MSELoss()
 
-        # self.dataset = CIFData(self.config['task'], **self.config['dataset'])
+        # self.dataset = CIFData(self.config['task'], **self.config['dataset']) # use this if you dont have .npz files of preloaded crystal graphs
         self.dataset = CGData(self.config['task'], **self.config['dataset'], shuffle=False)
         self.random_seed = self.config['random_seed']
         collate_fn = collate_pool
